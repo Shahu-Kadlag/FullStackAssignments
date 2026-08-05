@@ -1,0 +1,99 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f8f8f8;
+    color:#333;
+}
+
+header{
+    background:linear-gradient(135deg,#ff6b6b,#ffb347);
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+}
+
+nav li{
+    margin-left:20px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+}
+
+.hero{
+    padding:60px 20px;
+}
+
+.hero h1{
+    font-size:42px;
+}
+
+.hero p{
+    margin:15px 0;
+}
+
+.btn{
+    display:inline-block;
+    padding:10px 20px;
+    background:white;
+    color:#ff6b6b;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.menu{
+    padding:40px;
+    text-align:center;
+}
+
+.cards{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.card{
+    background:white;
+    width:220px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.about{
+    text-align:center;
+    padding:40px;
+    background:#fff3e0;
+}
+
+footer{
+    background:#222;
+    color:white;
+    text-align:center;
+    padding:15px;
+}
