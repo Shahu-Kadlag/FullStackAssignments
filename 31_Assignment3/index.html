@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f5f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d3557;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .form-container, .result-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1d3557;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .add-btn {
+            background-color: #2a9d8f;
+        }
+
+        .delete-btn {
+            background-color: #e63946;
+            margin: 0;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .topper-box {
+            background-color: #e0f7e9;
+            padding: 15px;
+            border-left: 5px solid #2a9d8f;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1d3557;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f5f9;
+        }
+
+        .topper-row {
+            background-color: #fff3cd !important;
+            font-weight: bold;
+        }
+
+        .message {
+            color: #d62828;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-container, .result-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Student Result Management System</h1>
+
+    <div class="form-container">
+        <h2>Enter Student Details</h2>
+
+        <form id="studentForm">
+            <div class="form-grid">
+
+                <div>
+                    <label for="roll">Roll Number</label>
+                    <input type="text" id="roll" required>
+                </div>
+
+                <div>
+                    <label for="name">Student Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div>
+                    <label for="m1">Subject 1 Marks</label>
+                    <input type="number" id="m1" min="0" max="100"
+                           step="1" required>
+                </div>
+
+                <div>
+                    <label for="m2">Subject 2 Marks</label>
+                    <input type="number" id="m2" min="0" max="100"
+                           step="1" required>
+                </div>
+
+                <div>
+                    <label for="m3">Subject 3 Marks</label>
+                    <input type="number" id="m3" min="0" max="100"
+                           step="1" required>
+                </div>
+
+                <div>
+                    <label for="m4">Subject 4 Marks</label>
+                    <input type="number" id="m4" min="0" max="100"
+                           step="1" required>
+                </div>
+
+                <div>
+                    <label for="m5">Subject 5 Marks</label>
+                    <input type="number" id="m5" min="0" max="100"
+                           step="1" required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="add-btn">
+                Add Student
+            </button>
+
+            <p id="message" class="message" role="alert"></p>
+        </form>
+    </div>
+
+    <div class="result-container">
+        <h2>Student Results</h2>
+
+        <div class="topper-box" id="topper">
+            <strong>Topper:</strong> No student records available.
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll No.</th>
+                        <th>Name</th>
+                        <th>Subject 1</th>
+                        <th>Subject 2</th>
+                        <th>Subject 3</th>
+                        <th>Subject 4</th>
+                        <th>Subject 5</th>
+                        <th>Total</th>
+                        <th>Percentage</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable">
+                    <!-- Student records appear here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Array to store student records
+    let students = [];
+
+    const form = document.getElementById("studentForm");
+    const table = document.getElementById("studentTable");
+    const topperBox = document.getElementById("topper");
+    const message = document.getElementById("message");
+
+    // Handle form submission
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const roll = document.getElementById("roll").value.trim();
+        const name = document.getElementById("name").value.trim();
+
+        const marks = ["m1", "m2", "m3", "m4", "m5"].map(id =>
+            Number(document.getElementById(id).value)
+        );
+
+        // Validate student details
+        if (!roll || !name) {
+            message.textContent = "Please enter the roll number and name.";
+            return;
+        }
+
+        if (students.some(student => student.roll === roll)) {
+            message.textContent = "Roll number already exists.";
+            return;
+        }
+
+        if (marks.some(mark =>
+            !Number.isInteger(mark) || mark < 0 || mark > 100
+        )) {
+            message.textContent =
+                "Marks must be whole numbers between 0 and 100.";
+            return;
+        }
+
+        // Calculate total and percentage
+        const total = marks.reduce((sum, mark) => sum + mark, 0);
+        const percentage = (total / 500) * 100;
+
+        // Create student object
+        const student = {
+            roll: roll,
+            name: name,
+            marks: marks,
+            total: total,
+            percentage: percentage
+        };
+
+        // Add student to the array
+        students.push(student);
+
+        // Update table and topper
+        displayStudents();
+
+        message.textContent = "Student record added successfully.";
+
+        // Clear the form
+        form.reset();
+    });
+
+    // Display student records
+    function displayStudents() {
+        table.innerHTML = "";
+
+        // Find the highest total
+        const highestTotal = students.length
+            ? Math.max(...students.map(student => student.total))
+            : -1;
+
+        students.forEach((student, index) => {
+            const row = document.createElement("tr");
+
+            // Highlight all students tied for the highest total
+            if (student.total === highestTotal) {
+                row.classList.add("topper-row");
+            }
+
+            const values = [
+                student.roll,
+                student.name,
+                ...student.marks,
+                student.total,
+                student.percentage.toFixed(2) + "%"
+            ];
+
+            values.forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            // Create delete button
+            const actionCell = document.createElement("td");
+            const deleteButton = document.createElement("button");
+
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "delete-btn";
+
+            deleteButton.addEventListener("click", function() {
+                deleteStudent(index);
+            });
+
+            actionCell.appendChild(deleteButton);
+            row.appendChild(actionCell);
+
+            table.appendChild(row);
+        });
+
+        displayTopper();
+    }
+
+    // Identify the topper
+    function displayTopper() {
+        if (students.length === 0) {
+            topperBox.textContent =
+                "Topper: No student records available.";
+            return;
+        }
+
+        const highestTotal = Math.max(
+            ...students.map(student => student.total)
+        );
+
+        const toppers = students.filter(
+            student => student.total === highestTotal
+        );
+
+        const topperNames = toppers.map(
+            student => student.name
+        ).join(", ");
+
+        topperBox.textContent =
+            "Topper: " + topperNames +
+            " | Total Marks: " + highestTotal + "/500" +
+            " | Percentage: " +
+            ((highestTotal / 500) * 100).toFixed(2) + "%";
+    }
+
+    // Delete a student record
+    function deleteStudent(index) {
+        students.splice(index, 1);
+        displayStudents();
+        message.textContent = "Student record deleted successfully.";
+    }
+</script>
+
+</body>
+</html>

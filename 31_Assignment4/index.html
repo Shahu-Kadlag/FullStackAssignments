@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Registration Form</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #667eea;
+        }
+
+        .password-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .password-wrapper input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .toggle-btn {
+            padding: 0 12px;
+            border: none;
+            background: #eee;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #d62828;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 7px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #4c5bd4;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Employee Registration</h1>
+        <p class="subtitle">Enter your details to register</p>
+
+        <div class="success" id="successMessage" role="status">
+            Registration successful!
+        </div>
+
+        <form id="employeeForm" novalidate>
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name"
+                       placeholder="Enter your full name"
+                       autocomplete="name">
+                <span class="error" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email"
+                       placeholder="example@company.com"
+                       autocomplete="email">
+                <span class="error" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+                    <input type="password" id="password"
+                           placeholder="Minimum 8 characters"
+                           autocomplete="new-password">
+
+                    <button type="button" class="toggle-btn"
+                            id="togglePassword"
+                            aria-label="Show password">
+                        Show
+                    </button>
+                </div>
+
+                <span class="error" id="passwordError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter 10-digit mobile number"
+                       maxlength="10"
+                       inputmode="numeric"
+                       autocomplete="tel">
+                <span class="error" id="phoneError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department</label>
+
+                <select id="department">
+                    <option value="">Select Department</option>
+                    <option value="IT">Information Technology</option>
+                    <option value="HR">Human Resources</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Operations">Operations</option>
+                </select>
+
+                <span class="error" id="departmentError"></span>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Register Employee
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+        const form = document.getElementById("employeeForm");
+        const successMessage = document.getElementById("successMessage");
+
+        // Display validation error
+        function showError(id, message) {
+            document.getElementById(id + "Error").textContent = message;
+        }
+
+        // Clear all validation errors
+        function clearErrors() {
+            document.querySelectorAll(".error").forEach(error => {
+                error.textContent = "";
+            });
+
+            successMessage.style.display = "none";
+        }
+
+        // Show or hide password
+        document.getElementById("togglePassword")
+            .addEventListener("click", function () {
+
+                const password = document.getElementById("password");
+
+                if (password.type === "password") {
+                    password.type = "text";
+                    this.textContent = "Hide";
+                    this.setAttribute("aria-label", "Hide password");
+                } else {
+                    password.type = "password";
+                    this.textContent = "Show";
+                    this.setAttribute("aria-label", "Show password");
+                }
+            });
+
+        // Validate form on submission
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            clearErrors();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const phone = document.getElementById("phone").value.trim();
+            const department = document.getElementById("department").value;
+
+            let isValid = true;
+
+            // Name validation
+            if (!/^[\p{L}][\p{L}\s'.-]*$/u.test(name)) {
+                showError("name",
+                    "Enter a valid name using letters and normal name punctuation.");
+                isValid = false;
+            }
+
+            // Email validation
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+                showError("email", "Enter a valid email address.");
+                isValid = false;
+            }
+
+            // Password validation
+            const passwordPattern =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s])\S{8,}$/;
+
+            if (!passwordPattern.test(password)) {
+                showError("password",
+                    "Use 8+ characters with uppercase, lowercase, a number, and a special character.");
+                isValid = false;
+            }
+
+            // Indian mobile number validation
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                showError("phone",
+                    "Enter a valid 10-digit Indian mobile number.");
+                isValid = false;
+            }
+
+            // Department validation
+            if (department === "") {
+                showError("department", "Please select a department.");
+                isValid = false;
+            }
+
+            // Show result
+            if (isValid) {
+                successMessage.textContent =
+                    "Registration successful! Welcome, " + name + ".";
+
+                successMessage.style.display = "block";
+
+                form.reset();
+
+                document.getElementById("togglePassword").textContent = "Show";
+                document.getElementById("togglePassword")
+                    .setAttribute("aria-label", "Show password");
+
+                successMessage.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
