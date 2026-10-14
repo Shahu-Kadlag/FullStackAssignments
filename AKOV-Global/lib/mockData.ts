@@ -1,0 +1,56 @@
+export const categories = [
+  { id: '1', name: 'Spices & Masalas', slug: 'spices', icon: 'wheat' },
+  { id: '2', name: 'Rice & Pulses', slug: 'rice-pulses', icon: 'nut-off' },
+  { id: '3', name: 'Fresh Produce', slug: 'fresh-produce', icon: 'apple' },
+  { id: '4', name: 'Edible Oils', slug: 'edible-oils', icon: 'droplet' },
+  { id: '5', name: 'Coffee Beans', slug: 'coffee', icon: 'coffee' }
+];
+
+export const products = [
+  {
+    id: 'p1',
+    name: 'Turmeric Finger (Premium Grade)',
+    slug: 'turmeric-finger',
+    categorySlug: 'spices',
+    description: 'Earthy aroma and vibrant golden color. Sourced from the finest farms in India, our turmeric fingers are carefully sun-dried, polished, and sorted to ensure high curcumin content and minimal moisture.',
+    origin: 'Maharashtra / AP, India',
+    curcumin: '2% - 5% (Customizable)',
+    moisture: '10% Maximum',
+    shelfLife: '24 Months',
+    moq: '1 Metric Ton (MT)',
+    packingOptions: '25kg/50kg Jute or PP Bags',
+    hsCode: '09103020',
+    primaryImage: '/products/turmeric.jpg',
+    isFeatured: true,
+  },
+  {
+    id: 'p2',
+    name: 'Basmati Rice (1121 Sella)',
+    slug: 'basmati-rice-1121',
+    categorySlug: 'rice-pulses',
+    description: 'Extra long grain rice with exceptional aroma and flavor. Aged to perfection, our 1121 Sella Basmati rice remains non-sticky after cooking, making it ideal for premium dishes worldwide.',
+    origin: 'Punjab / Haryana, India',
+    moisture: '12% Maximum',
+    shelfLife: '24 Months',
+    moq: '1 Twenty-Foot Container',
+    packingOptions: '5kg/10kg/25kg Non-Woven Bags',
+    hsCode: '10063020',
+    primaryImage: '/products/rice.jpg',
+    isFeatured: true,
+  },
+  {
+    id: 'p3',
+    name: 'Cumin Seeds (Jeera)',
+    slug: 'cumin-seeds',
+    categorySlug: 'spices',
+    description: 'Strong aroma and warm flavor, essential in daily cooking. Hand-picked and sortex cleaned to ensure zero impurities.',
+    origin: 'Gujarat / Rajasthan, India',
+    moisture: '9% Maximum',
+    shelfLife: '24 Months',
+    moq: '1 Metric Ton (MT)',
+    packingOptions: '25kg/50kg PP Bags',
+    hsCode: '09093129',
+    primaryImage: '/products/cumin.jpg',
+    isFeatured: true,
+  }
+];

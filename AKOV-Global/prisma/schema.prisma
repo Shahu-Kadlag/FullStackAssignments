@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  icon        String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id              String         @id @default(uuid())
+  name            String
+  slug            String         @unique
+  description     String
+  origin          String?
+  grade           String?
+  hsCode          String?
+  moq             String?
+  packingOptions  String?
+  shelfLife       String?
+  isFeatured      Boolean        @default(false)
+  isActive        Boolean        @default(true)
+  categoryId      String
+  category        Category       @relation(fields: [categoryId], references: [id])
+  images          ProductImage[]
+  enquiries       Enquiry[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  url       String
+  altText   String?
+  isPrimary Boolean  @default(false)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Enquiry {
+  id              String   @id @default(uuid())
+  enquiryNumber   String   @unique
+  status          String   @default("NEW") // NEW, CONTACTED, QUOTED, WON, LOST
+  buyerName       String
+  companyName     String
+  country         String
+  email           String
+  whatsapp        String
+  quantity        String
+  destinationPort String
+  message         String?
+  productId       String?
+  product         Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SupplierEnquiry {
+  id              String   @id @default(uuid())
+  companyName     String
+  contactName     String
+  productOffered  String
+  monthlyCapacity String
+  location        String
+  email           String
+  whatsapp        String
+  createdAt       DateTime @default(now())
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,48 @@
+{
+  "name": "akov-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "prisma generate && next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "postinstall": "prisma skills sync || exit 0"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "@react-email/components": "^1.0.12",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@types/three": "^0.185.4",
+    "clsx": "^2.1.1",
+    "dotenv": "^18.0.1",
+    "framer-motion": "^13.2.0",
+    "lucide-react": "^1.41.0",
+    "next": "16.3.4",
+    "pg": "^8.23.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "resend": "^6.26.0",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.185.1",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "prisma": "^7.10.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.14",
+    "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

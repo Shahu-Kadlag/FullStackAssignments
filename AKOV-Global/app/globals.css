@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0F292F; /* Lighter, botanical navy/teal for text */
+  --color-deepgreen: #144933; /* Dark shadow of the leaf */
+  --color-agrigreen: #257D42; /* Main vivid green of the leaf */
+  --color-teal: #147E98; /* Right side of the logo (A/arrow) */
+  --color-gold: #D1A53D; /* Wheat stalk */
+  --color-goldhover: #B88E30;
+  --color-offwhite: #FAFAFA;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+@layer base {
+  body {
+    @apply bg-offwhite text-gray-800;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-navy;
+  }
+}
